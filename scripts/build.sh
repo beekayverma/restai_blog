@@ -61,6 +61,16 @@ fi
 # output path is simply /project/<OUT> and lands on the host.
 HUGO_DEST="/project/$OUT"
 
+# A theme configured through Hugo Modules must NOT also be passed via --theme.
+# Its imports (and the local replacement pointing at our pinned submodule) come
+# from the [module] block in the overlay, and Hugo reads the vendored copies in
+# site/_vendor, so the build stays offline.
+THEME_FLAG="--theme '$THEME'"
+if [ -f "site/config/themes/$THEME.toml" ] && grep -q '^\[module\]' "site/config/themes/$THEME.toml"; then
+  THEME_FLAG=""
+  echo "build: $THEME uses Hugo Modules, vendored in site/_vendor"
+fi
+
 HUGO_IMAGE="$(hugo_image_for "$THEME")"
 echo "build: theme=$THEME  config=$CONFIGS  out=$OUT"
 echo "build: hugo=${HUGO_IMAGE##*:}"
@@ -96,7 +106,7 @@ docker run --rm \
   -e HUGO_CACHEDIR=/tmp/hugo_cache \
   "$HUGO_IMAGE" \
   sh -c "export PATH=/project/site/themes/$THEME/node_modules/.bin:\$PATH; ${NPM_STEP} hugo --gc --minify --cleanDestinationDir \
-           --theme '$THEME' \
+           ${THEME_FLAG} \
            --config '$CONFIGS' \
            --destination '$HUGO_DEST'"
 
