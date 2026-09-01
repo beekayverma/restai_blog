@@ -1,0 +1,63 @@
+# Base configuration, deliberately theme neutral.
+#
+# Anything theme specific lives in config/themes/<name>.toml and is merged on
+# top of this file at build time. That keeps the A/B honest: every candidate
+# theme renders exactly the same content from exactly the same base settings.
+
+baseURL = "https://restai.ee/"
+locale = "en-gb"
+title = "REST AI"
+enableRobotsTXT = true
+enableGitInfo = false
+
+# Trailing slash URLs, one canonical form, no surprises for search engines.
+canonifyURLs = false
+disableKinds = ["taxonomy", "term"]
+
+# Posts live in content/blog and are the only thing that counts as "the blog".
+[params]
+  description = "Responsible, Ethical, Safe and Trustworthy AI. Practical AI governance, risk, compliance and security for people starting out."
+  authorName = "Bhupender Verma"
+  mainSections = ["blog"]
+  # Used by the subscribe partial. Caddy proxies this to Listmonk same origin.
+  subscribeAction = "/subscribe"
+  subscribeListUUID = ""   # filled from .env at deploy time, not committed
+
+[permalinks]
+  blog = "/blog/:slug/"
+
+[markup.goldmark.renderer]
+  unsafe = true    # allows raw HTML in content, needed for the subscribe partial
+
+[markup.highlight]
+  noClasses = false
+  lineNos = false
+
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel = 3
+
+[outputs]
+  home = ["HTML", "RSS"]
+  section = ["HTML", "RSS"]
+
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.5
+
+[taxonomies]
+  tag = "tags"
+
+[menu]
+  [[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    name = "Blog"
+    url = "/blog/"
+    weight = 2
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 3

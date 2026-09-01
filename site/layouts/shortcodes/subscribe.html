@@ -1,0 +1,94 @@
+{{- /*
+  Subscribe form. Posts same origin to /subscribe, which Caddy proxies through
+  to the self hosted Listmonk instance, so the reader never leaves restai.ee.
+
+  Deliberately declares NO colours. Every colour is inherited from the active
+  theme via currentColor and inherit, so this renders correctly under all six
+  A/B candidates and never fights the theme author's palette. The only styling
+  here is layout: spacing, borders and stacking.
+
+  Call it from content with the standard Hugo shortcode syntax, naming this
+  file: an opening brace pair with a percent sign, then subscribe, then close.
+*/ -}}
+
+{{- $action := site.Params.subscribeAction | default "/subscribe" -}}
+{{- $list := site.Params.subscribeListUUID | default "" -}}
+
+<section class="restai-subscribe" aria-labelledby="restai-subscribe-heading">
+  <h2 id="restai-subscribe-heading">Subscribe</h2>
+  <p>
+    New posts on AI governance, risk, compliance and security, sent when there
+    is something worth sending. No tracking, no sharing your address, and you
+    can unsubscribe from any email.
+  </p>
+
+  <form class="restai-subscribe__form" method="post" action="{{ $action }}">
+    <input type="hidden" name="l" value="{{ $list }}" />
+    {{- /* Honeypot. Bots fill hidden fields, people do not. */ -}}
+    <input type="text" name="website" class="restai-subscribe__hp"
+           tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+    <label class="restai-subscribe__label" for="restai-subscribe-email">
+      Email address
+    </label>
+    <div class="restai-subscribe__row">
+      <input class="restai-subscribe__input"
+             id="restai-subscribe-email"
+             type="email"
+             name="email"
+             required
+             autocomplete="email"
+             placeholder="you@example.com" />
+      <button class="restai-subscribe__button" type="submit">Subscribe</button>
+    </div>
+  </form>
+</section>
+
+<style>
+  .restai-subscribe {
+    margin: 2.5rem 0;
+    padding: 1.5rem;
+    border: 1px solid currentColor;
+    border-radius: 6px;
+    /* Border colour is the text colour at low opacity, so it adapts to any
+       theme in both light and dark mode without naming a colour. */
+    border-color: color-mix(in srgb, currentColor 20%, transparent);
+  }
+  .restai-subscribe h2 { margin-top: 0; }
+  .restai-subscribe__form { margin-top: 1rem; }
+  .restai-subscribe__label {
+    display: block;
+    font-size: 0.875rem;
+    margin-bottom: 0.375rem;
+  }
+  .restai-subscribe__row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .restai-subscribe__input {
+    flex: 1 1 16rem;
+    min-width: 0;
+    padding: 0.6rem 0.75rem;
+    font: inherit;
+    color: inherit;
+    background: transparent;
+    border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+    border-radius: 4px;
+  }
+  .restai-subscribe__button {
+    padding: 0.6rem 1.25rem;
+    font: inherit;
+    cursor: pointer;
+    color: inherit;
+    background: transparent;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+  }
+  .restai-subscribe__button:hover {
+    background: color-mix(in srgb, currentColor 12%, transparent);
+  }
+  .restai-subscribe__hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+</style>

@@ -1,0 +1,18 @@
+[submodule "site/themes/papermod"]
+	path = site/themes/papermod
+	url = https://github.com/adityatelange/hugo-PaperMod.git
+[submodule "site/themes/blowfish"]
+	path = site/themes/blowfish
+	url = https://github.com/nunocoracao/blowfish.git
+[submodule "site/themes/congo"]
+	path = site/themes/congo
+	url = https://github.com/jpanther/congo.git
+[submodule "site/themes/blog-awesome"]
+	path = site/themes/blog-awesome
+	url = https://github.com/hugo-sid/hugo-blog-awesome.git
+[submodule "site/themes/tailbliss"]
+	path = site/themes/tailbliss
+	url = https://github.com/nusserstudios/tailbliss.git
+[submodule "site/themes/hugoplate"]
+	path = site/themes/hugoplate
+	url = https://github.com/zeon-studio/hugoplate.git

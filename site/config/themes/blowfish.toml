@@ -1,0 +1,12 @@
+# Blowfish expects an author table and its own appearance settings.
+[params]
+  colorScheme = "blowfish"
+  defaultAppearance = "light"
+  autoSwitchAppearance = true
+  [params.author]
+    name = "Bhupender Verma"
+    links = [{ linkedin = "https://www.linkedin.com/in/bhupender-v-042a2450/" }]
+[params.article]
+  showDate = true
+  showAuthor = true
+  showReadingTime = true

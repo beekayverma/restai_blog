@@ -1,0 +1,15 @@
+# Congo keeps its own settings under params and expects an author table.
+[params]
+  colorScheme = "congo"
+  defaultAppearance = "light"
+  autoSwitchAppearance = true
+  [params.author]
+    name = "Bhupender Verma"
+    links = [{ linkedin = "https://www.linkedin.com/in/bhupender-v-042a2450/" }]
+[params.footer]
+  showAppearanceSwitcher = true
+
+[params.article]
+  showDate = true
+  showAuthor = true
+  showReadingTime = true

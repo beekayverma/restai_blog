@@ -1,0 +1,193 @@
+<!DOCTYPE html-
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST AI stands for Responsible, Ethical, Safe & Trustworthy AI.</title>
+    <!-- Tailwind CSS via CDN for quick testing -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f4f6f9',
+                            900: '#0f172a',
+                            accent: '#2563eb'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-slate-900 selection:text-white">
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-50 bg-slate-50/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" class="font-bold text-xl tracking-tight text-slate-900">
+                REST <span class="text-blue-600">AI</span>
+            </a>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+                <a href="#articles" class="hover:text-slate-900 transition">Articles</a>
+                <a href="#meetup" class="hover:text-slate-900 transition">Tallinn Meetup</a>
+                <a href="#consulting" class="hover:text-slate-900 transition">ISO 42001</a>
+                <a href="#about" class="hover:text-slate-900 transition">About</a>
+            </nav>
+            <a href="#consulting" class="text-xs font-semibold uppercase tracking-wider bg-slate-900 text-white px-4 py-2 rounded border border-slate-900 hover:bg-transparent hover:text-slate-900 transition">
+                Book Audit
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 py-16">
+
+        <!-- Hero Section -->
+        <section class="py-12 border-b border-slate-200">
+            <div class="inline-block bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-6">
+                Estonia & Baltic Tech Scene
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 mb-6 leading-tight">
+                Responsible, Ethical, Safe & Trustworthy AI for Growing SMBs.
+            </h1>
+            <p class="text-lg text-slate-600 mb-8 max-w-2xl leading-relaxed">
+                Practical engineering guides, EU AI Act compliance, and ISO 42001 audit preparation tailored for CTOs, CISOs, and founders in Estonia & EU.
+            </p>
+            
+            <!-- Lead Magnet Form -->
+            <form onsubmit="event.preventDefault(); alert('Subscribed! (Testing Mode)');" class="flex flex-col sm:flex-row gap-3 max-w-md">
+                <input type="email" required placeholder="Enter your email to subscribe our newsletter." class="bg-white border border-slate-300 text-slate-900 text-sm rounded px-4 py-3 focus:outline-none focus:border-slate-900 flex-1 shadow-sm">
+                <button type="submit" class="bg-blue-600 text-white font-medium text-sm px-6 py-3 rounded hover:bg-blue-700 transition shadow-sm">
+                    Subscribe to Newsletter
+                </button>
+            </form>
+            <p class="text-xs text-slate-400 mt-2">Free monthly breakdown of EU AI Act updates & AI GRC.</p>
+        </section>
+
+        <!-- Blog Articles Section -->
+        <section id="articles" class="py-16 border-b border-slate-200">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900">Latest Field Notes</h2>
+                <span class="text-sm text-slate-500">Updated Weekly</span>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Article 1 -->
+                <article class="group cursor-pointer">
+                    <div class="text-xs text-blue-600 font-semibold uppercase mb-1">ISO 42001 • 5 min read</div>
+                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition mb-2">
+                        ISO 42001 Implementation Checklist for Estonian SaaS Startups
+                    </h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        A step-by-step breakdown on how to map your existing ISO 27001 policies into the new Artificial Intelligence Management System standard without slowing down production.
+                    </p>
+                    <div class="text-xs text-slate-400">August 2026 • By Bhupender Kumar Verma</div>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="group cursor-pointer">
+                    <div class="text-xs text-blue-600 font-semibold uppercase mb-1">EU AI Act • 8 min read</div>
+                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition mb-2">
+                        Does Your startup Fall Under High-Risk AI? What Baltic Founders Need to Know
+                    </h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        Navigating the Estonian Data Protection Inspectorate (AKI) guidelines alongside the EU AI Act enforceability deadlines for local tech startups.
+                    </p>
+                    <div class="text-xs text-slate-400">August 2026 • By Bhupender Kumar Verma</div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Community & Meetup Callout -->
+        <section id="meetup" class="py-16 border-b border-slate-200">
+            <div class="bg-slate-900 text-white rounded-xl p-8 md:p-10 shadow-lg">
+                <div class="text-xs font-bold uppercase tracking-widest text-blue-400 mb-2">Community Event</div>
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">Tallinn AI GRC & Security Meetup #1</h2>
+                <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6 max-w-xl">
+                    Join developers, founders, and security practitioners in Telliskivi for an informal evening discussing real-world AI security vulnerabilities and compliance strategies.
+                </p>
+                <div class="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-300 mb-8">
+                    <div class="flex items-center gap-1.5">📍 LIFT99, Tallinn</div>
+                    <div class="flex items-center gap-1.5">📅 Coming Soon</div>
+                    <div class="flex items-center gap-1.5">🍕 Free Entry & Drinks</div>
+                </div>
+                <a href="#consulting" class="inline-block bg-white text-slate-900 font-semibold text-sm px-6 py-3 rounded hover:bg-slate-100 transition">
+                    RSVP / Express Interest
+                </a>
+            </div>
+        </section>
+
+        <!-- Consulting / ISO 42001 Lead Generation Form -->
+        <section id="consulting" class="py-16 border-b border-slate-200">
+            <div class="max-w-xl">
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 mb-2">ISO 42001 Advisory & Audits</h2>
+                <p class="text-slate-600 text-sm leading-relaxed mb-8">
+                    Preparing your startup for Enterprise AI sales or regulatory compliance? Let’s evaluate your existing AI governance and build an audit-ready framework.
+                </p>
+
+                <form onsubmit="event.preventDefault(); alert('Message Sent! (Testing Mode)');" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Your Name</label>
+                        <input type="text" required class="w-full bg-white border border-slate-300 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-slate-900">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Work Email</label>
+                        <input type="email" required class="w-full bg-white border border-slate-300 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-slate-900">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Primary Need</label>
+                        <select class="w-full bg-white border border-slate-300 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-slate-900">
+                            <option>ISO 42001 Implementation</option>
+                            <option>ISO 42001 Audit & Assessment</option>
+                            <option>EU AI Act Gap Analysis</option>
+                            <option>AI Security Vulnerability Audit</option>
+                            <option>AI Security - Pentesting</option>
+                            <option>Speaking / Corporate Workshop</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Project Details</label>
+                        <textarea rows="4" required class="w-full bg-white border border-slate-300 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-slate-900" placeholder="Briefly describe your product stack and audit timeline..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-slate-900 text-white font-medium text-sm py-3 rounded hover:bg-slate-800 transition">
+                        Submit Audit Inquiry
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- About Founder Section -->
+        <section id="about" class="py-16">
+            <h2 class="text-2xl font-bold tracking-tight text-slate-900 mb-4">About REST AI</h2>
+            <p class="text-slate-600 leading-relaxed text-sm mb-4">
+                REST AI was created by <strong>Bhupender Kumar Verma, PECB certified ISO42001 Lead Implementer & Lead Auditor</strong> to address the growing gap between rapid AI adoption and compliance requirements in the Baltic tech ecosystem.
+            </p>
+            <p class="text-slate-600 leading-relaxed text-sm mb-6">
+                Based out of Tallinn, Estonia, we focus on demystifying international standards (ISO/IEC 42001), local regulations (AKI guidelines), and regional frameworks to make enterprise-grade security accessible for growing SMBs.
+            </p>
+            <div class="flex gap-4 text-xs font-medium text-blue-600">
+                <a href="https://linkedin.com" target="_blank" class="hover:underline">LinkedIn Profile &rarr;</a>
+                <a href="mailto:hello@restai.ee" class="hover:underline">hello@restai.ee &rarr;</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 bg-white py-8">
+        <div class="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+            <div>
+                © 2026 REST AI. All rights reserved. Hosted in EU.
+            </div>
+            <div class="flex space-x-6">
+                <a href="#articles" class="hover:text-slate-900">Articles</a>
+                <a href="#meetup" class="hover:text-slate-900">Meetups</a>
+                <a href="#consulting" class="hover:text-slate-900">Consulting</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

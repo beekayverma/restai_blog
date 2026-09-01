@@ -1,0 +1,7 @@
+# blog-awesome expects params.author to be a table with name and avatar.
+[params]
+  [params.author]
+    name = "Bhupender Verma"
+    avatar = ""
+    intro = "AI governance, risk, compliance and security."
+    description = "Responsible, Ethical, Safe and Trustworthy AI."

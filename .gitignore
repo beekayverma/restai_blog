@@ -1,0 +1,58 @@
+# Secrets. Never commit these.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+!**/*.pub
+listmonk/config.toml
+caddy/cloudflare-origin.*
+secrets/
+
+# Hugo build output and caches
+site/public/
+site/resources/
+site/.hugo_build.lock
+dist/
+
+# Pagefind index, regenerated at build time
+site/static/pagefind/
+
+# Node, only used by the Tailwind based themes
+node_modules/
+.npm/
+npm-debug.log*
+.pnpm-store/
+
+# Container state. These are volumes, not source.
+data/
+postgres-data/
+listmonk-uploads/
+caddy-data/
+caddy-config/
+
+# Backups. Restorable state, but not source, and they contain subscriber emails.
+backups/
+*.dump
+*.sql.gz
+*.tar.gz
+
+# Python. Standing rule: a stale __pycache__ once destroyed the only copy of source.
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Logs and temp
+*.log
+tmp/
+.cache/
+
+# Editor and OS noise
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
