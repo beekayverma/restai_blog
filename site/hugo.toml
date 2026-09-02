@@ -21,7 +21,7 @@ disableKinds = ["taxonomy", "term"]
   mainSections = ["blog"]
   # Used by the subscribe partial. Caddy proxies this to Listmonk same origin.
   subscribeAction = "/subscribe"
-  subscribeListUUID = ""   # filled from .env at deploy time, not committed
+  subscribeListUUID = "617f78fb-c2a6-4276-8f34-b90efe53e7bf"   # filled from .env at deploy time, not committed
 
 [permalinks]
   blog = "/blog/:slug/"

@@ -1,0 +1,80 @@
+# REST AI blog stack.
+#
+# PostgreSQL is the only database anywhere in this project. The site itself is
+# static files with no database and no admin panel, so the only stateful piece
+# is the subscriber list.
+#
+# Every image is pinned. "latest" is not a version.
+
+name: restai
+
+services:
+  postgres:
+    image: postgres:16.10-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    # Deliberately publishes NO host port. Only the listmonk container reaches
+    # it, over the private network below.
+    networks: [internal]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  listmonk:
+    image: listmonk/listmonk:v6.2.0
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      LISTMONK_app__address: "0.0.0.0:9000"
+      LISTMONK_db__host: postgres
+      LISTMONK_db__port: "5432"
+      LISTMONK_db__user: ${POSTGRES_USER}
+      LISTMONK_db__password: ${POSTGRES_PASSWORD}
+      LISTMONK_db__database: ${POSTGRES_DB}
+      LISTMONK_db__ssl_mode: disable
+      LISTMONK_ADMIN_USER: ${LISTMONK_ADMIN_USER}
+      LISTMONK_ADMIN_PASSWORD: ${LISTMONK_ADMIN_PASSWORD}
+      TZ: Europe/Tallinn
+    command: >
+      sh -c "./listmonk --install --idempotent --yes --config '' &&
+             ./listmonk --upgrade --yes --config '' &&
+             ./listmonk --config ''"
+    volumes:
+      - listmonk-uploads:/listmonk/uploads
+    # Bound to loopback only. The admin panel is never exposed publicly, reach
+    # it over an SSH tunnel. Caddy proxies just the one public endpoint.
+    ports:
+      - "127.0.0.1:9000:9000"
+    networks: [internal]
+
+  caddy:
+    image: caddy:2.11.4-alpine
+    restart: unless-stopped
+    depends_on: [listmonk]
+    ports:
+      - "${HTTP_PORT:-8080}:80"
+    volumes:
+      - ../caddy/Caddyfile.dev:/etc/caddy/Caddyfile:ro
+      - ../site/public:/srv:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    networks: [internal]
+
+volumes:
+  postgres-data:
+  listmonk-uploads:
+  caddy-data:
+  caddy-config:
+
+networks:
+  internal:
+    driver: bridge

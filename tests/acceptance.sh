@@ -81,10 +81,21 @@ run_content() {
 
   # Home carries the initiative, not just a post list.
   if [ -f "$SITE_OUT/index.html" ]; then
-    if grep -qi 'responsible.*ethical.*safe.*trustworthy' "$SITE_OUT/index.html"; then
-      pass "home page states the REST AI initiative"
+    # Assert against VISIBLE text, not metadata. Checking the raw HTML let this
+    # pass on a <meta> description while the page body showed nothing of the
+    # sort, which is exactly the failure a reader would notice first.
+    local visible
+    visible=$(python3 -c "
+import re, io, sys
+h = io.open('$SITE_OUT/index.html', encoding='utf-8', errors='ignore').read()
+h = re.sub(r'<(script|style|head)[^>]*>.*?</\1>', ' ', h, flags=re.S|re.I)
+print(re.sub(r'<[^>]+>', ' ', h))
+" 2>/dev/null)
+    if echo "$visible" | grep -qi 'responsible.*ethical.*safe.*trustworthy'; then
+      pass "home page states the REST AI initiative in visible text"
     else
-      fail "home page does not expand the REST AI acronym"
+      fail "home page body does not expand the REST AI acronym" \
+           "the phrase may exist only in metadata, which readers never see"
     fi
   else
     fail "home page missing at $SITE_OUT/index.html"
@@ -199,6 +210,15 @@ run_subscribe() {
     return
   fi
 
+  # Use the real list uuid, the same one the rendered form carries. Posting an
+  # empty l= is not a meaningful test: Listmonk rejects it with a 500.
+  local list_uuid=""
+  [ -f .env ] && list_uuid=$(grep '^LISTMONK_LIST_UUID=' .env | cut -d= -f2)
+  if [ -z "$list_uuid" ]; then
+    fail "no LISTMONK_LIST_UUID in .env, run ./scripts/setup-list.sh"
+    return
+  fi
+
   local addr="acceptance-$$@restai.test"
   local code
   code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 \
@@ -206,7 +226,7 @@ run_subscribe() {
          -H 'Content-Type: application/x-www-form-urlencoded' \
          --data-urlencode "email=$addr" \
          --data-urlencode "name=Acceptance Test" \
-         --data-urlencode 'l=' 2>/dev/null)
+         --data-urlencode "l=$list_uuid" 2>/dev/null)
 
   if [ "$code" = "200" ] || [ "$code" = "302" ]; then
     pass "subscribe endpoint accepted the submission (HTTP $code)"
