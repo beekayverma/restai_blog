@@ -1,0 +1,90 @@
+{{- /*
+  Hugoplate homepage override, scoped to this theme via module mounts in
+  site/config/themes/hugoplate.toml.
+
+  WHY. Hugoplate is a marketing starter template. Its stock home.html renders
+  only .Params.banner and .Params.features, never .Content, so the homepage of
+  a writing led site came out at 48 words: a heading, one sentence and a
+  button. It showed no posts and no subscribe form.
+
+  This keeps Hugoplate's own banner markup byte for byte, then adds the two
+  things a blog homepage needs: the page body, and recent posts. Post cards use
+  the theme's own components/blog-card partial, so the design remains the
+  theme author's work throughout. No colours or spacing are invented here.
+*/ -}}
+
+{{ define "main" }}
+  <!-- Banner -->
+  {{ with .Params.banner }}
+    <section class="section pt-14">
+      <div class="container">
+        <div class="row justify-center">
+          <div class="lg:col-7 md:col-9 mb-8 text-center">
+            <h1 class="mb-4 text-h3 lg:text-h1">
+              {{ .title | markdownify }}
+            </h1>
+            <p class="mb-8">
+              {{ .content | markdownify }}
+            </p>
+            {{ with .button }}
+              {{ if .enable }}
+                <a
+                  class="btn btn-primary"
+                  href="{{ .link | absURL }}"
+                  {{ if strings.HasPrefix .link `http` }}
+                    target="_blank" rel="noopener"
+                  {{ end }}>
+                  {{ .label }}
+                </a>
+              {{ end }}
+            {{ end }}
+          </div>
+          <div class="col-12">
+            {{/* image modules comes from https://github.com/gethugothemes/hugo-modules/tree/master/images */}}
+            {{ partial "image" (dict "Src" .image "Alt" "Banner image" "Loading" "eager" "Class" "mx-auto lg:!max-w-[800px]" "DisplayXL" "800x" ) }}
+          </div>
+        </div>
+      </div>
+    </section>
+  {{ end }}
+  <!-- /Banner -->
+
+  <!-- Page body from content/_index.md, which also carries the subscribe form -->
+  {{ with .Content }}
+    <section class="section pt-0">
+      <div class="container">
+        <div class="row justify-center">
+          <div class="lg:col-8 content">
+            {{ . }}
+          </div>
+        </div>
+      </div>
+    </section>
+  {{ end }}
+
+  <!-- Recent posts -->
+  {{ $posts := where site.RegularPages "Section" "blog" }}
+  {{ if $posts }}
+    <section class="section bg-gradient">
+      <div class="container">
+        <div class="row justify-center">
+          <div class="lg:col-8 mb-8 text-center">
+            <h2 class="mb-4">Latest posts</h2>
+          </div>
+        </div>
+        <div class="row justify-center">
+          {{ range first 4 $posts.ByDate.Reverse }}
+            <div class="md:col-6 lg:col-5 mb-14">
+              {{ partial "components/blog-card" . }}
+            </div>
+          {{ end }}
+        </div>
+        <div class="row justify-center">
+          <div class="text-center">
+            <a class="btn btn-primary" href="{{ "blog/" | absURL }}">Read all posts</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  {{ end }}
+{{ end }}

@@ -1,4 +1,10 @@
-# Themes: candidates, evidence, and the A/B
+# Themes: the decision and the evidence
+
+**Decision: Hugoplate.** Set in `.active-theme`.
+
+Congo was trialled and reverted: it was not the look wanted. Hugoplate stays,
+with its homepage rebuilt (see below) because the stock one rendered 48 words.
+Congo and Blowfish remain installed as alternates.
 
 All figures come from the GitHub API, queried 2026-09-02. The "best Hugo themes
 of 2026" articles that dominate search results are SEO and affiliate content and
@@ -93,17 +99,47 @@ Verified result: zero third party hosts in the built output, and no tracking
 keywords anywhere. Congo, Blowfish and blog-awesome emit zero third party hosts
 without any of this work.
 
-## Known issues to settle after you choose
+## 5. The homepage was rebuilt
 
-- **Hugoplate**: its post template enables Facebook and X share buttons and
-  **disables** LinkedIn. Backwards for you, since LinkedIn is your distribution
-  channel. Fixing it means overriding `layouts/blog/single.html`, deferred until
-  the theme is chosen so the work is not wasted.
+Hugoplate is a marketing starter template. Its stock `home.html` renders only
+`.Params.banner` and `.Params.features`, never `.Content`, so the homepage of a
+writing led site came out at **48 words**: a heading, one sentence and a button,
+with no posts and no subscribe form.
+
+`site/layouts-hugoplate/home.html` keeps Hugoplate's banner markup byte for byte
+and adds the two things a blog homepage needs: the page body from
+`content/_index.md`, which also carries the subscribe form, and recent posts
+rendered with the theme's own `components/blog-card` partial. **455 words now.**
+No colours or spacing were invented; the design remains the theme author's.
+
+## 6. Share buttons corrected
+
+Upstream enabled Facebook and X sharing and **disabled** LinkedIn, which is
+backwards for a site distributed through LinkedIn, and put two extra third party
+hosts in the markup. `site/layouts-hugoplate/blog/single.html` flips this. One
+line changed, everything else is upstream.
+
+## Scoping
+
+These overrides live in `site/layouts-hugoplate/`, mounted for this theme only
+via `[[module.mounts]]` in `site/config/themes/hugoplate.toml`. Congo and
+Blowfish keep their own templates, so the A/B stays honest and switching themes
+does not drag Hugoplate's markup along.
+
+## Verified result
+
+Zero third party **resources** load on any page. The only outbound host in the
+markup is `www.linkedin.com`: your profile link and the share button, both
+click activated rather than fetched on load.
+
+## Known issues
+
+- **Hugoplate**: `site/layouts-hugoplate/` and
+  `site/layouts/_partials/essentials/style.html` are copies of upstream
+  templates. Re-check them whenever the submodule is updated, since copies drift.
 - **hugo-blog-awesome**: home page title renders as "Home" rather than
-  "REST AI". A config fix, not a theme defect.
-- **Hugoplate**: `site/layouts/_partials/essentials/style.html` is a copy of an
-  upstream template. Re-check it whenever the submodule is updated, since it can
-  drift.
+  "REST AI". A config fix, not a theme defect. Only matters if it ever becomes a
+  serious candidate.
 
 ## Recording the decision
 

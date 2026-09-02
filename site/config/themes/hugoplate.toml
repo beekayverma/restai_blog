@@ -30,6 +30,29 @@
   # Use our own pinned submodule rather than fetching the theme over the network.
   replacements = "github.com/zeon-studio/hugoplate -> hugoplate"
 
+  # Mount a Hugoplate specific layouts directory ahead of the shared one, so
+  # the homepage override below applies to this theme ONLY and the other
+  # candidates keep their own home templates. Declaring any mount for a
+  # component replaces its defaults, so the shared layouts dir is listed too.
+  [[module.mounts]]
+    source = "layouts-hugoplate"
+    target = "layouts"
+  [[module.mounts]]
+    source = "layouts"
+    target = "layouts"
+  [[module.mounts]]
+    source = "content"
+    target = "content"
+  [[module.mounts]]
+    source = "static"
+    target = "static"
+  [[module.mounts]]
+    source = "data"
+    target = "data"
+  [[module.mounts]]
+    source = "archetypes"
+    target = "archetypes"
+
   [module.hugoVersion]
     extended = true
     min = "0.158.0"
@@ -111,7 +134,7 @@
 # custom script on header, example: custom_script= "<script>console.log(\"Hello World\")</script>"
   custom_script = ""
 # copyright
-  copyright = "Designed & Developed by [Zeon Studio](https://zeon.studio)"
+  copyright = "REST AI. Built with [Hugo](https://gohugo.io) and the [Hugoplate](https://github.com/zeon-studio/hugoplate) theme."
 
 # Preloader
 # preloader module: https://github.com/gethugothemes/hugo-modules/tree/master/components/preloader
