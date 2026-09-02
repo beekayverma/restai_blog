@@ -41,6 +41,9 @@
     source = "layouts"
     target = "layouts"
   [[module.mounts]]
+    source = "assets"
+    target = "assets"
+  [[module.mounts]]
     source = "content"
     target = "content"
   [[module.mounts]]

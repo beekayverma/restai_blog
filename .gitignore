@@ -13,7 +13,7 @@ secrets/
 site/public/
 site/resources/
 site/.hugo_build.lock
-dist/
+/dist/
 
 # Pagefind index, regenerated at build time
 site/static/pagefind/
@@ -25,14 +25,17 @@ npm-debug.log*
 .pnpm-store/
 
 # Container state. These are volumes, not source.
-data/
-postgres-data/
-listmonk-uploads/
-caddy-data/
-caddy-config/
+# Anchored with a leading slash on purpose: an unanchored "data/" also matched
+# site/data/, Hugo's data directory, which silently kept social.json out of the
+# repository and made the footer social icons disappear on a fresh clone.
+/data/
+/postgres-data/
+/listmonk-uploads/
+/caddy-data/
+/caddy-config/
 
 # Backups. Restorable state, but not source, and they contain subscriber emails.
-backups/
+/backups/
 *.dump
 *.sql.gz
 *.tar.gz

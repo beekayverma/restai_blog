@@ -1,0 +1,19 @@
+{
+  "main": [
+    {
+      "name": "LinkedIn",
+      "icon": "fab fa-linkedin",
+      "link": "https://www.linkedin.com/in/bhupender-v-042a2450/"
+    },
+    {
+      "name": "GitHub",
+      "icon": "fab fa-github",
+      "link": "https://github.com/beekayverma"
+    },
+    {
+      "name": "RSS",
+      "icon": "fas fa-rss",
+      "link": "https://restai.ee/index.xml"
+    }
+  ]
+}

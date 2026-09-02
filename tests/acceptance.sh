@@ -153,6 +153,35 @@ print(re.sub(r'<[^>]+>', ' ', h))
     fail "no subscribe form posting to /subscribe found"
   fi
 
+
+  # No third party resources, checked across HTML **and CSS**. Scanning HTML
+  # alone missed Font Awesome pulling its webfonts from cdnjs.cloudflare.com
+  # via url() inside a stylesheet, which would have disclosed every visitor's
+  # IP address to a CDN while the site claimed to load nothing third party.
+  local hosts
+  hosts=$(grep -rhoE '(href|src)="(https?:)?//[^"]+' "$SITE_OUT" --include='*.html' 2>/dev/null \
+          | sed -E 's|.*="(https?:)?//||; s|/.*||'
+          grep -rhoE 'url\((https?:)?//[^)]+' "$SITE_OUT" --include='*.css' 2>/dev/null \
+          | sed -E 's|url\((https?:)?//||; s|/.*||'
+          grep -rhoE '@import[[:space:]]+(url\()?["'"'"']?(https?:)?//[^"'"'"')]+' "$SITE_OUT" --include='*.css' 2>/dev/null \
+          | sed -E 's|.*//||; s|/.*||')
+  # Outbound links a reader must click are fine. Fetched resources are not.
+  hosts=$(echo "$hosts" | grep -v '^$' | grep -viE '^(www\.)?linkedin\.com$' | sort -u)
+  if [ -z "$hosts" ]; then
+    pass "no third party resources loaded (html and css both checked)"
+  else
+    fail "third party resources are loaded" "$(echo "$hosts" | tr '\n' ' ')"
+  fi
+
+  # The footer social icons come from site/data/social.json, which has gone
+  # missing once already during a theme change.
+  if grep -rqs 'linkedin.com/in/bhupender-v-042a2450' "$SITE_OUT/index.html"; then
+    pass "LinkedIn link present on the home page"
+  else
+    fail "LinkedIn link missing from the home page" \
+         "check site/data/social.json exists"
+  fi
+
   # OpenGraph, because LinkedIn is the distribution channel.
   if grep -qs 'property="og:title"' "$SITE_OUT/index.html"; then
     pass "OpenGraph tags present for link previews"
