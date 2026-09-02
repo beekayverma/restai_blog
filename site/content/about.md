@@ -55,13 +55,3 @@ The most reliable way to reach me is LinkedIn.
 I am glad to hear from people starting out in AI GRCS, from teams working
 through EU AI Act or ISO/IEC 42001 scope questions, and from anyone interested
 in speaking at or sponsoring a Tallinn meetup.
-
-## About this site
-
-Built with [Hugo](https://gohugo.io/) and served as static files. Subscriptions
-are handled by a self-hosted [Listmonk](https://listmonk.app/) instance, so the
-mailing list stays under my control and is not passed to a third party
-processor. No tracking scripts, no advertising networks, no third party
-analytics.
-
-The source is on [GitHub](https://github.com/beekayverma/restai_blog).
