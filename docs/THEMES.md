@@ -1,115 +1,101 @@
-# Themes: candidates, evidence, and the A/B
+# Themes: the decision and the evidence
+
+**Decision: Congo.** Set in `.active-theme`, chosen 2026-09-02.
 
 All figures come from the GitHub API, queried 2026-09-02. The "best Hugo themes
 of 2026" articles that dominate search results are SEO and affiliate content and
 were not used as evidence for anything here.
 
-## How to run the comparison
+## Why Congo
+
+The A/B was run properly: identical content, identical base config, one theme
+each, compared as real builds of this site rather than as somebody else's demo.
+
+| Theme | Homepage words | Lists posts | Subscribe form | Renders your prose |
+|---|---|---|---|---|
+| **Congo** | **401** | yes | yes | yes |
+| Blowfish | 415 | yes | yes | yes |
+| hugo-blog-awesome | 50 | yes | no | no |
+| Hugoplate | 48 | no | no | no |
+
+Congo and Blowfish were effectively tied on completeness. Congo won on weight
+and simplicity: 256K of output against Blowfish's 500K, and fewer moving parts
+to maintain. Both are MIT, actively maintained, and emit zero third party hosts
+with no intervention.
+
+Blowfish remains installed as the alternate. To switch:
 
 ```bash
-./scripts/ab-build.sh          # build all four, then serve
-./scripts/ab-build.sh --stop   # shut the preview servers down
+echo blowfish > .active-theme && make build && make test
 ```
 
-| Theme | Preview |
-|---|---|
-| Hugoplate | http://localhost:8081 |
-| Congo | http://localhost:8082 |
-| Blowfish | http://localhost:8083 |
-| hugo-blog-awesome | http://localhost:8084 |
+## Shortlist as verified
 
-Each one renders the **same content** from the **same base config**. The only
-variable is the theme, so what you are comparing is your own site, not somebody
-else's demo content.
+| Theme | Stars | License | Last push | Issues | Output |
+|---|---|---|---|---|---|
+| Congo | 1,649 | MIT | 2026-08-01 | 22 | 256K |
+| Blowfish | 2,889 | MIT | 2026-08-30 | 5 | 500K |
+| hugo-blog-awesome | 812 | MIT | 2026-08-29 | 8 | 380K |
 
-## The shortlist
+## Why Hugoplate was dropped
 
-| Theme | Stars | License | Last push | Issues | Build deps | Output size |
-|---|---|---|---|---|---|---|
-| Hugoplate | 1,587 | MIT | 2026-08-16 | 10 | npm, Hugo Modules | 784K |
-| Congo | 1,649 | MIT | 2026-08-01 | 22 | npm | 240K |
-| Blowfish | 2,889 | MIT | 2026-08-30 | 5 | npm | 504K |
-| hugo-blog-awesome | 812 | MIT | 2026-08-29 | 8 | none | 380K |
+It was the initial preference on looks, was made to build, and was then rejected
+on evidence. Worth recording, because the reasons generalise.
 
-## Rejected candidates
+**It is a marketing template, not a blog theme.** Its homepage is built from
+front matter params (`banner`, `features`), never from `content/_index.md`. With
+hero images and product copy stripped out, its homepage rendered 48 words: a
+heading, one sentence and a button. The demo looked good because it was full of
+marketing content this site does not have.
+
+**It is a starter template on Hugo Modules, not a self contained theme.**
+Upstream imports 26 external modules and needs a Go toolchain to fetch them.
+
+**Its templates shipped tracking that could not simply be switched off.**
+`head.html`, `script.html` and `baseof.html` called `gtm.html`,
+`gtm-noscript.html`, `adsense-script.html` and `cookie-consent.html` with no
+config guard at the call site, so the theme would not build without the
+advertising modules present.
+
+**Its style partial opened third party connections on every page load.**
+preconnect and dns-prefetch hints to `googletagmanager.com`,
+`google-analytics.com`, `connect.facebook.net`, `platform.linkedin.com` and
+`platform.twitter.com`. preconnect is not a passive hint: the browser performs
+DNS resolution and a full TCP and TLS handshake to each host, disclosing the
+visitor's IP address and the fact of the visit to Google and Meta even with no
+tracking script running. It also injected Google Fonts from Google's CDN, which
+transfers visitor IP addresses to a third country and has been found to infringe
+the GDPR in EU case law.
+
+All of this was worked around successfully, with no-op stub partials and a
+style.html override, and verified to produce zero third party hosts. Those
+workarounds have since been removed along with the theme, because carrying
+overrides for an unused theme is a maintenance liability.
+
+## Also rejected
 
 | Theme | Stars | Reason |
 |---|---|---|
-| PaperMod | 13,875 | **Cannot build on current Hugo.** Hugo 0.146 made underscore prefixed layout directories reserved, which breaks its `layouts/partials/templates/_funcs/` helper. Verified failing on 0.147.9, 0.157.0 and 0.165.0. Upstream's latest commit is documentation only, so no fix is pending. Popularity is not maintenance. |
-| TailBliss | 413 | Vite plus Tailwind 4 pipeline with a custom `install.js`. Does not fit a containerised theme swap without bespoke work, and not worth it at this size. |
+| PaperMod | 13,875 | **Cannot build on current Hugo.** Hugo 0.146 made underscore prefixed layout directories reserved, breaking its `layouts/partials/templates/_funcs/` helper. Verified failing on 0.147.9, 0.157.0 and 0.165.0. Upstream's latest commit is documentation only. Popularity is not maintenance. |
+| TailBliss | 413 | Vite and Tailwind 4 pipeline with a custom `install.js`. Does not fit a containerised theme swap without bespoke work. |
 | Stack | 6,467 | GPL-3.0 rather than MIT, and 3 months stale. Copyleft would constrain future customisation. |
 | Coder | 3,106 | 85 open issues. Maintenance backlog. |
-| hextra | 2,331 | 107 open issues, and documentation oriented rather than a blog theme. |
+| hextra | 2,331 | 107 open issues, documentation oriented rather than a blog theme. |
 | Terminal, console | 2,800 / 675 | Terminal aesthetic undercuts credibility with a CISO and board audience. |
 | hello-friend-ng | 1,549 | 9 months stale, 58 open issues, licence does not resolve to a recognised SPDX identifier. |
 | Bento | 57 | Last push 2021-07-26. Dead. |
 | hugo-serif, hugo-whisper | 487 / 273 | Both stale since 2024. |
 | newsroom | 327 | Licence does not resolve to a recognised SPDX identifier. |
 
-## What it took to make Hugoplate safe to ship
-
-Hugoplate is a **starter template built on Hugo Modules**, not a self contained
-theme. Upstream imports 26 external modules and its templates call several of
-them unconditionally. Getting it to meet the "no tracking" claim on the About
-page required four deliberate interventions, all documented in place.
-
-**1. Advertising and tag manager modules are absent, not merely disabled.**
-`head.html`, `script.html` and `baseof.html` call `gtm.html`, `gtm-noscript.html`,
-`adsense-script.html` and `cookie-consent.html` with no config guard at the call
-site. The enable check lives inside each upstream module, so the theme will not
-build unless something answers. Upstream answers by importing the advertising
-modules and leaving them switched off.
-
-Instead, `site/layouts/_partials/` provides four no-op stubs. Project layouts
-take precedence over modules, so the calls resolve to files that render nothing,
-and adsense, google-tag-manager and cookie-consent never enter the dependency
-tree at all.
-
-**2. Third party preconnects removed.** Upstream `essentials/style.html` opened
-every page with preconnect and dns-prefetch hints to `googletagmanager.com`,
-`google-analytics.com`, `connect.facebook.net`, `platform.linkedin.com`,
-`platform.twitter.com` and `ajax.googleapis.com`.
-
-preconnect is not passive. The browser performs DNS resolution and a full TCP
-and TLS handshake to each host on every page load, disclosing the visitor's IP
-address and the fact of the visit to Google and Meta even though no tracking
-script runs. `site/layouts/_partials/essentials/style.html` overrides this,
-keeping the upstream CSS pipeline byte for byte and removing only the third
-party connections.
-
-**3. Google Fonts no longer loaded from Google.** The same partial injected
-fonts from `fonts.googleapis.com` at runtime. Serving Google Fonts from Google's
-CDN transfers visitor IP addresses to a third country and has been found to
-infringe the GDPR in EU case law. Typography now falls back to the stack in
-`data/theme.json`. If you want the original typeface, self host the files under
-`site/static` rather than restoring the CDN link.
-
-**4. Modules vendored.** The 21 remaining modules are committed under
-`site/_vendor` (1.7 MB) by `./scripts/vendor-modules.sh`. Builds are therefore
-offline, reproducible and auditable, and the production build never needs a Go
-toolchain or a network fetch from GitHub.
-
-Verified result: zero third party hosts in the built output, and no tracking
-keywords anywhere. Congo, Blowfish and blog-awesome emit zero third party hosts
-without any of this work.
-
-## Known issues to settle after you choose
-
-- **Hugoplate**: its post template enables Facebook and X share buttons and
-  **disables** LinkedIn. Backwards for you, since LinkedIn is your distribution
-  channel. Fixing it means overriding `layouts/blog/single.html`, deferred until
-  the theme is chosen so the work is not wasted.
-- **hugo-blog-awesome**: home page title renders as "Home" rather than
-  "REST AI". A config fix, not a theme defect.
-- **Hugoplate**: `site/layouts/_partials/essentials/style.html` is a copy of an
-  upstream template. Re-check it whenever the submodule is updated, since it can
-  drift.
-
-## Recording the decision
-
-When you pick one, write the theme name into `.active-theme` and note here why,
-so the choice is documented rather than remembered.
+## Running the comparison again
 
 ```bash
-echo congo > .active-theme && ./scripts/build.sh
+make ab        # builds congo, blowfish and blog-awesome, serves on 8082 to 8084
+make ab-stop
 ```
+
+## Outstanding
+
+- **hugo-blog-awesome**: home page title renders as "Home" rather than
+  "REST AI", and it shows neither your prose nor the subscribe form on the home
+  page. Only worth fixing if it ever becomes a serious candidate.

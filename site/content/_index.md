@@ -2,19 +2,6 @@
 title: "REST AI"
 description: "Responsible, Ethical, Safe and Trustworthy AI. Practical AI governance, risk, compliance and security for people starting out."
 
-# The banner block below is read by Hugoplate, whose home page is built from
-# front matter params rather than from the markdown body. Congo, Blowfish and
-# blog-awesome ignore these keys and render the body instead. Keeping both in
-# one file means every theme in the A/B shows the same message using whichever
-# mechanism that theme was designed around.
-banner:
-  title: "Responsible, Ethical, Safe and Trustworthy AI"
-  content: "Practical AI governance, risk, compliance and security, written for people who are starting out and cannot find a way in."
-  image: ""
-  button:
-    enable: true
-    label: "Read the blog"
-    link: "/blog/"
 ---
 
 ## Responsible, Ethical, Safe and Trustworthy AI
