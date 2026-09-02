@@ -1,0 +1,19 @@
+{{- /*
+  Deliberate no-op stub: cookie-consent
+
+  Hugoplate's templates call this partial UNCONDITIONALLY (the enable guard
+  lives inside the upstream module, not at the call site), so the theme cannot
+  build unless something answers the call. Upstream answers it by importing the
+  advertising and tag manager modules.
+
+  restai.ee states it runs no tracking scripts, no advertising networks and no
+  third party analytics. Rather than import those modules and rely on leaving
+  them switched off, this stub satisfies the call and renders nothing at all.
+  Project layouts take precedence over modules, so this wins.
+
+  Net effect: adsense, google-tag-manager and cookie-consent are absent from
+  the dependency tree entirely, and no tracking markup can reach the page.
+
+  If you ever DO want analytics, prefer a self hosted, cookie free option and
+  wire it in explicitly here rather than restoring the upstream modules.
+*/ -}}

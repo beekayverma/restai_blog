@@ -10,12 +10,3 @@
   showDate = true
   showAuthor = true
   showReadingTime = true
-
-# A blog homepage should link its recent posts. Both themes support this as
-# config, so no template override is needed.
-[params.homepage]
-  layout = "page"
-  showRecent = true
-  showRecentItems = 5
-  showMoreLink = true
-  showMoreLinkDest = "/blog/"

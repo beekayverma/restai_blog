@@ -7,3 +7,6 @@
 [submodule "site/themes/blog-awesome"]
 	path = site/themes/blog-awesome
 	url = https://github.com/hugo-sid/hugo-blog-awesome.git
+[submodule "site/themes/hugoplate"]
+	path = site/themes/hugoplate
+	url = https://github.com/zeon-studio/hugoplate.git

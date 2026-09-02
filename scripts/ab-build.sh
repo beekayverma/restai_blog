@@ -11,7 +11,7 @@
 set -uo pipefail
 cd "$(dirname "$0")/.." || exit 1
 
-THEMES=(congo blowfish blog-awesome)
+THEMES=(hugoplate congo blowfish blog-awesome)
 BASE_PORT=8081
 MODE="${1:---all}"
 

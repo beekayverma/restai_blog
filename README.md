@@ -67,9 +67,10 @@ before 1.0, so it could not meet the Postgres requirement.
 ```
 site/              Hugo project
   content/         Home, About, and blog posts in markdown
-  layouts/         our own subscribe shortcode. No theme overrides remain
+  layouts/         our own shortcodes and a small number of theme overrides
   config/themes/   one config overlay per candidate theme
   themes/          pinned submodules, left unmodified
+  _vendor/         vendored Hugo modules, so builds are offline
 compose/           docker-compose stack
 caddy/             reverse proxy config
 scripts/           build, backup, restore, style checks, setup
@@ -95,17 +96,17 @@ Two house rules, both enforced by `make test`:
 
 ## Themes
 
-**Congo** is the active theme, chosen by comparing real builds of this site
-rather than demo content. Blowfish stays installed as the alternate.
+Four candidates are installed and can be compared side by side against your own
+content, not demo content:
 
 ```bash
-make ab      # builds each candidate and serves them side by side
+make ab      # serves each on ports 8081 to 8084
 make ab-stop
-echo blowfish > .active-theme && make build   # switch
 ```
 
-The evidence behind the decision, and every theme that was rejected with the
-reason, is recorded in [docs/THEMES.md](docs/THEMES.md).
+The evidence behind the shortlist, the themes that were rejected and why, and
+the work needed to strip third party tracking out of Hugoplate are all recorded
+in [docs/THEMES.md](docs/THEMES.md).
 
 Themes are vendored as pinned submodules and left **unmodified**. Every colour,
 font and spacing value comes from the theme author.
